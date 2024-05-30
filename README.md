@@ -22,8 +22,47 @@ contributed by `<YeeeLiang>`
 因此我認為，解決或問對的問題前需要先累積一定的經驗與知識。
 
 ## 問題討論
+
 :::info
-問題一：第 5 次作業無法上傳
+問題一：Merge Sort 
+
+資料參考：[你所不知道的 C 語言: linked list 和非連續記憶體](https://hackmd.io/@sysprog/c-linked-list)
+:::
+
+* #### 頭跟尾兩兩合併
+從固定第一條串列改成頭跟尾兩兩合併，直到剩一條為止，比起前一方法的每次都用愈來愈長的串列跟另一條串列合併，頭尾合併在多數的情況下兩條串列的長度比較平均，合併會比較快。
+
+當合併完頭尾後，偶數長度會少一半，奇數長度則為 `(listsSize + 1) / 2`，奇數更新的方式也可以用在偶數長度上。
+
+無法意會執行流程，想請老師在說明一次。
+
+* #### Divide and Conquer
+
+在[你所不知道的 C 語言: linked list 和非連續記憶體](https://hackmd.io/@sysprog/c-linked-list)文中的這段程式碼看不太懂：
+
+```c
+    int m = listsSize >> 1;
+    struct ListNode *left = mergeKLists(lists, m);
+    struct ListNode *right = mergeKLists(lists + m, listsSize - m);
+
+    return mergeTwoLists(left, right);
+```
+Divide and Conquer 是計算出中間位置 ｎ，然後將 lists 陣列分為兩部分：lists[0] 到 lists[ｎ-1] 是左半部分，lists[ｎ] 到 lists[listsSize] 是右半部分。
+在使用遞歸呼叫 mergeKLists 函式，對左右兩部分進行合併，分別得到左半部分和右半部分的合併結果。
+
+但是為什麼上面的程式碼是`listsSize - m`，而不是`listsSize - m/2`呢?
+如下：
+```diff
+    int m = listsSize >> 1;
+    struct ListNode *left = mergeKLists(lists, m);
+-   struct ListNode *right = mergeKLists(lists + m, listsSize - m);
++   struct ListNode *right = mergeKLists(lists + m, listsSize-(m/2));
+
+    return mergeTwoLists(left, right);
+```
+
+:::info
+問題二：第 5 次作業無法上傳
 :::
 
 填寫 Google 表單上傳第 5 次作業時，遭遇困難。
@@ -37,21 +76,3 @@ contributed by `<YeeeLiang>`
 上傳多次，但仍找不出原因為何？
 上傳紀錄如
 [<第5次作業上傳紀錄>](https://drive.google.com/file/d/1Jskc-GNp3Na6CECIGrZdr0pgXXBGc7nm/view?usp=sharing)。
-
-:::info
-問題二：Merge Sort 
-:::
-
-#### 頭跟尾兩兩合併
-無法意會執行流程
-https://hackmd.io/@sysprog/c-linked-list
-
-#### Divide and Conquer
-這段程式碼看不懂
-```c
-    int m = listsSize >> 1;
-    struct ListNode *left = mergeKLists(lists, m);
-    struct ListNode *right = mergeKLists(lists + m, listsSize - m);
-
-    return mergeTwoLists(left, right);
-```
